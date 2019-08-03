@@ -1,0 +1,5 @@
+# Ignore virtual enviroment
+env
+
+# Ignore idea settings
+.idea
