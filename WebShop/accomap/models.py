@@ -18,8 +18,8 @@ class Brand(models.Model):
 
 
 class Product(models.Model):
-    category = models.ForeignKey(Category)
-    brand = models.ForeignKey(Brand)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    brand = models.ForeignKey(Brand, on_delete=models.CASCADE)
     title = models.CharField(max_length=120)
     slug = models.SlugField()
     description = models.TextField()
