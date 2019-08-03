@@ -16,3 +16,6 @@ migrations/
 # Ignore all images from media exclude media
 media/
 product_images/
+
+# Ignore static
+static
