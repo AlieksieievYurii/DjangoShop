@@ -7,7 +7,7 @@ from .models import Product
 
 def base_view(request):
     categories = Category.objects.all()
-    products = Product.objects.all()
+    products = Product.objects.all_available()
     context: Dict[str, any] = {
         'categories': categories,
         'products': products
