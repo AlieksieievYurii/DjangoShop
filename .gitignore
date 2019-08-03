@@ -3,3 +3,9 @@ env
 
 # Ignore idea settings
 .idea
+
+# Ignore pycache
+__pycache__
+
+# Ignore local db
+db.sqlite3
