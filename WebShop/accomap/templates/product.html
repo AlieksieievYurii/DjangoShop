@@ -1,5 +1,15 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<p>All ok</p>
+<div class="col-sm-4">
+        <img src="{{ product.image.url }}" style="width:80%; height:250px">
+</div>
+<div class="col-sm-8">
+    <h3 class="text-center">{{ product.title }}</h3>
+    <p>{% lorem %}</p>
+    <p>{% lorem %}</p>
+    <hr>
+    <p>Price: <strong>{{ product.price }}</strong></p>
+    <a href="#"><button class="btn btn-danger">ADD TO CARD</button> </a>
+</div>
 {% endblock content %}

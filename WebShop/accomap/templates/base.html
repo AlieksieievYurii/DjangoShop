@@ -68,7 +68,7 @@
                 <p class="lead">Shop Name</p>
                 <div class="list-group">
                     {% for category in categories %}
-                    <a href="#" class="list-group-item">{{ category.name }}</a>
+                    <a href="{{ category.get_absolute_url }}" class="list-group-item">{{ category.name }}</a>
                     {% endfor %}
                 </div>
             </div>
