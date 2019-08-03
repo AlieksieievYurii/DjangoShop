@@ -1,4 +1,6 @@
 from django.db import models
+from django.db.models.signals import pre_save
+from django.utils.text import slugify
 
 
 # Utils for models
@@ -7,13 +9,21 @@ def _image_folder(instance, file_name):
     return '{}/{}'.format(instance.slug, file_name)
 
 
+def _pre_save_category_slug(sender, instance, *args, **kwargs):
+    if not instance.slug:
+        instance.slug = slugify(instance.name)
+
+
 # Create your models here.
 class Category(models.Model):
     name = models.CharField(max_length=50)
-    slug = models.SlugField()
+    slug = models.SlugField(blank=True)
 
     def __str__(self):
         return self.name
+
+
+pre_save.connect(_pre_save_category_slug, sender=Category)
 
 
 class Brand(models.Model):
