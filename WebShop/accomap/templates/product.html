@@ -10,6 +10,6 @@
     <p>{% lorem %}</p>
     <hr>
     <p>Price: <strong>{{ product.price }}</strong></p>
-    <a href="#"><button class="btn btn-danger">ADD TO CARD</button> </a>
+    <a href="{% url 'add_to_cart' product_slug=product.slug %}"><button class="btn btn-danger">ADD TO CARD</button> </a>
 </div>
 {% endblock content %}
