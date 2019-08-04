@@ -15,7 +15,7 @@
         <th class="text-center">{{ item.product.title }}</th>
         <th class="text-center">{{ item.qty }}</th>
         <th class="text-center">{{ item.item_total }}</th>
-        <th class="text"><a href="{% url 'remove_product' item.product.slug %}"><button class="btn btn-default">Remove</button> </a>
+        <th class="text"><a href="{% url 'remove_product' %}"><button class="btn btn-default">Remove</button> </a>
     </tr>
     {% endfor %}
 </table>
