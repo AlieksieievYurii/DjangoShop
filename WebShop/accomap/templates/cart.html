@@ -11,12 +11,34 @@
         <th class="text-center"><strong></strong></th>
     </tr>
     {% for item in cart.items.all %}
-    <tr>
+    <tr class='cart-item-{{ item.product.id }}'>
         <th class="text-center">{{ item.product.title }}</th>
         <th class="text-center">{{ item.qty }}</th>
         <th class="text-center">{{ item.item_total }}</th>
-        <th class="text"><a href="{% url 'remove_product' %}"><button class="btn btn-default">Remove</button> </a>
+        <th class="text"><a href="{% url 'remove_product' %}" class='remove_from_cart' data-slug="{{ item.product.slug }}" data-id="{{ item.product.id }}"><button class="btn btn-default">Remove</button> </a>
     </tr>
     {% endfor %}
 </table>
+<script>
+    $(document).ready(function(e){
+        $('.remove_from_cart').on('click', function(e){
+            e.preventDefault()
+            product_slug = $(this).attr('data-slug')
+            product_id = $(this).attr('data-id')
+            data = {
+                product_slug: product_slug
+            }
+            $.ajax({
+                type: "GET",
+                url: "{% url 'remove_product' %}",
+                data: data,
+                success: function(data)
+                {
+                    $('.cart-item-' + product_id).css('display', 'none')
+                    $('#cart_count').html(data.cart_total)
+                }
+            })
+        })
+    })
+</script>
 {% endblock content %}

@@ -99,7 +99,7 @@ def add_to_cart_view(request):
     return JsonResponse({'cart_total': cart.items.count()})
 
 
-def remove_from_card_view(request, product_slug):
+def remove_from_card_view(request):
     try:
         cart_id: int = request.session['cart_id']
         cart = Cart.objects.get(id=cart_id)
@@ -110,6 +110,7 @@ def remove_from_card_view(request, product_slug):
         cart_id = cart.id
         request.session['cart_id'] = cart_id
         cart = Cart.objects.get(id=cart_id)
-    cart.remove_from_cart(product_slug)
+
+    cart.remove_from_cart(request.GET.get('product_slug'))
     return JsonResponse({'cart_total': cart.items.count()})
 
