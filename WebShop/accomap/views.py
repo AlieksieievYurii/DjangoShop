@@ -1,6 +1,8 @@
 from typing import Dict
 from django.http.response import HttpResponseRedirect
 from django.shortcuts import render
+from django.urls import reverse
+
 from .models import Category
 from .models import Product
 from .models import Cart
@@ -91,12 +93,8 @@ def add_to_cart_view(request, product_slug):
         cart_id = cart.id
         request.session['cart_id'] = cart_id
         cart = Cart.objects.get(id=cart_id)
-    product = Product.objects.get(slug=product_slug)
-    new_item, _ = CartItem.objects.get_or_create(product=product, item_total=product.price)
-    if new_item not in cart.items.all():
-        cart.items.add(new_item)
-        cart.save()
-        return HttpResponseRedirect('/cart/')
+    cart.add_to_cart(product_slug)
+    return HttpResponseRedirect(reverse('cart'))
 
 
 def remove_from_card_view(request, product_slug):
@@ -110,8 +108,6 @@ def remove_from_card_view(request, product_slug):
         cart_id = cart.id
         request.session['cart_id'] = cart_id
         cart = Cart.objects.get(id=cart_id)
-    product = Product.objects.get(slug=product_slug)
-    cart.items.get(product=product).delete()
-    cart.save()
-    return HttpResponseRedirect('/cart/')
+    cart.remove_from_cart(product_slug)
+    return HttpResponseRedirect(reverse('cart'))
 

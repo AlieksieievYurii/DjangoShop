@@ -75,3 +75,15 @@ class Cart(models.Model):
 
     def __str__(self):
         return str(self.id)
+
+    def add_to_cart(self, product_slug) -> None:
+        product = Product.objects.get(slug=product_slug)
+        new_item, _ = CartItem.objects.get_or_create(product=product, item_total=product.price)
+        if new_item not in self.items.all():
+            self.items.add(new_item)
+            self.save()
+
+    def remove_from_cart(self, product_slug) -> None:
+        product = Product.objects.get(slug=product_slug)
+        self.items.get(product=product).delete()
+        self.save()
