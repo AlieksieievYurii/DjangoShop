@@ -3,6 +3,8 @@ from typing import Dict
 from django.shortcuts import render
 from .models import Category
 from .models import Product
+from .models import Cart
+from .models import CartItem
 
 
 def base_view(request):
@@ -35,3 +37,12 @@ def category_view(request, category_slug):
         'products_of_category': products_of_category
     }
     return render(request, 'category.html', context=context)
+
+
+def cart_view(request):
+    cart = Cart.objects.first()
+    context: Dict[str, any] = {
+        'cart': cart
+    }
+    return render(request, 'cart.html', context=context)
+
