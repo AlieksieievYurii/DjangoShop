@@ -13,11 +13,21 @@
     {% for item in cart.items.all %}
     <tr class='cart-item-{{ item.product.id }}'>
         <th class="text-center">{{ item.product.title }}</th>
-        <th class="text-center">{{ item.qty }}</th>
-        <th class="text-center">{{ item.item_total }}</th>
+        <th class="text-center">
+            <form action="" method="GET">
+                <input type="number" name="qty" class="cart-item-qty" data-id="{{ item.id }}" value="{{ item.qty }}" min="1" style="width: 50px;">
+            </form>
+        </th>
+        <th class="text-center" id="cart-item-total-{{ item.id }}">{{ item.item_total }}</th>
         <th class="text"><a href="{% url 'remove_product' %}" class='remove_from_cart' data-slug="{{ item.product.slug }}" data-id="{{ item.product.id }}"><button class="btn btn-default">Remove</button> </a>
     </tr>
     {% endfor %}
+    <tr>
+        <td></td>
+        <td class="text-center"><strong>Total:</strong></td>
+        <td class="text-center" id="cart-item-price"><strong>{{ cart.cart_total }}</strong></td>
+        <td></td>
+    </tr>
 </table>
 <script>
     $(document).ready(function(e){
@@ -36,6 +46,27 @@
                 {
                     $('.cart-item-' + product_id).css('display', 'none')
                     $('#cart_count').html(data.cart_total)
+                    $('#cart-item-price').html('<strong>' + parseFloat(data.cart_total_price).toFixed(2) + ' $ </strong>')
+                }
+            })
+        })
+    })
+
+    $(document).ready(function(){
+        $('.cart-item-qty').on('click', function(){
+            qty = $(this).val()
+            item_id = $(this).attr('data-id')
+            data = {
+                qty: qty,
+                item_id: item_id
+            }
+            $.ajax({
+                type: "GET",
+                url: '{% url "change_item_qty" %}',
+                data: data,
+                success: function(data) {
+                    $('#cart-item-total-' + item_id).html(parseFloat(data.item_total).toFixed(2) + ' $')
+                    $('#cart-item-price').html('<strong>' + parseFloat(data.cart_total_price).toFixed(2) + ' $ </strong>')
                 }
             })
         })
